@@ -1,4 +1,5 @@
 import db from "../db.js";
+import bcrypt from "bcrypt";
 
 import { signUpSchema, signInSchema } from "../schemas/authSchema.js";
 
@@ -21,6 +22,22 @@ export async function validateSignIn(req, res, next) {
   } catch (error) {
     console.log(error);
     res.status(400).send(error.details);
+  }
+}
+
+export async function verifyUser(req, res, next) {
+  const user = req.body;
+  try {
+    const userFromDb = await db
+      .collection("users")
+      .findOne({ email: user.email });
+    if (userFromDb) {
+      return res.status(400).send("User already exists");
+    }
+    next();
+  } catch (error) {
+    console.log(error);
+    res.status(500).send(error);
   }
 }
 

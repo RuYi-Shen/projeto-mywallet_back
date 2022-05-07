@@ -8,6 +8,7 @@ export async function signUp(req, res) {
   try {
     const hash = await bcrypt.hash(user.password, 10);
     user.password = hash;
+    delete user.passwordConfirmation;
     await db.collection("users").insertOne(user);
 
     res.sendStatus(201);
