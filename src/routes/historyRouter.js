@@ -1,11 +1,15 @@
 import { Router } from 'express';
 import { getHistory, addRecord, editRecord, deleteRecord } from '../controllers/historyController.js';
 
-const userRouter = Router();
+import { validateRecord, validateToken, validateId } from '../middlewares/historyMiddleware.js';
 
-userRouter.get('/history', getHistory);
-userRouter.post('/history', addRecord);
-userRouter.put('/history/:id', editRecord);
-userRouter.delete('/history/:id', deleteRecord);
+const historyRouter = Router();
 
-export default userRouter;
+historyRouter.use(validateToken);
+
+historyRouter.get('/history', getHistory);
+historyRouter.post('/history', validateRecord, addRecord);
+historyRouter.put('/history/:id', validateRecord, validateId, editRecord);
+historyRouter.delete('/history/:id', validateId, deleteRecord);
+
+export default historyRouter;

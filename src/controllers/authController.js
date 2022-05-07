@@ -23,7 +23,7 @@ export async function signIn(req, res) {
 
   try {
     const token = uuid();
-    await db.collection("tokens").insertOne({
+    await db.collection("sessions").insertOne({
       token,
       userId: user._id,
     });
