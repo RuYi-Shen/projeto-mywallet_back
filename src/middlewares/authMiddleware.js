@@ -1,6 +1,6 @@
 import db from "../db.js";
 
-import { signUpSchema, signInSchema } from "../controllers/authController.js";
+import { signUpSchema, signInSchema } from "../schemas/authSchema.js";
 
 export async function validateSignUp(req, res, next) {
   const user = req.body;
