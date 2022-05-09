@@ -20,6 +20,8 @@ catch (error) {
 export async function addRecord(req, res) {
   const record = req.body;
   try {
+    record.time = new Date();
+    record.date = String(record.time.getDate()).padStart(2, '0') + '/' + String(record.time.getMonth() + 1).padStart(2, '0');
     await db
       .collection("history")
       .insertOne(record);

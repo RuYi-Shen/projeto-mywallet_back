@@ -27,7 +27,7 @@ export async function signIn(req, res) {
       token,
       userId: user._id,
     });
-    res.json({ token });
+    res.json({ token, username: user.name });
   } catch (error) {
     console.log(error);
     res.status(500).send(error);

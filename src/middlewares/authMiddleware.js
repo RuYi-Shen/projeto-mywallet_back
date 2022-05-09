@@ -32,7 +32,7 @@ export async function verifyUser(req, res, next) {
       .collection("users")
       .findOne({ email: user.email });
     if (userFromDb) {
-      return res.status(400).send("User already exists");
+      return res.status(409).send("User already exists");
     }
     next();
   } catch (error) {
