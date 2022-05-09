@@ -33,3 +33,15 @@ export async function signIn(req, res) {
     res.status(500).send(error);
   }
 }
+
+export async function logOut(req, res) {
+  const token = req.body.token;
+  
+  try {
+    await db.collection("sessions").deleteOne({ token });
+    res.sendStatus(204);
+  } catch (error) {
+    console.log(error);
+    res.status(500).send(error);
+  }
+}

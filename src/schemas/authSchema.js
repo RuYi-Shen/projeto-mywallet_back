@@ -16,3 +16,8 @@ export const signInSchema = Joi.object({
     email:  Joi.string().email().required(),
     password: Joi.string().required()
 })
+
+export const logOutSchema = Joi.object({
+    token: Joi.string().required(),
+    username: Joi.string().required()
+})

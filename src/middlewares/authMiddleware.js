@@ -1,7 +1,7 @@
 import db from "../db.js";
 import bcrypt from "bcrypt";
 
-import { signUpSchema, signInSchema } from "../schemas/authSchema.js";
+import { signUpSchema, signInSchema, logOutSchema } from "../schemas/authSchema.js";
 
 export async function validateSignUp(req, res, next) {
   const user = req.body;
@@ -18,6 +18,17 @@ export async function validateSignIn(req, res, next) {
   const user = req.body;
   try {
     await signInSchema.validateAsync(user, { abortEarly: false });
+    next();
+  } catch (error) {
+    console.log(error);
+    res.status(400).send(error.details);
+  }
+}
+
+export async function validateLogOut(req, res, next) {
+  const info = req.body;
+  try {
+    await logOutSchema.validateAsync(info, { abortEarly: false });
     next();
   } catch (error) {
     console.log(error);
@@ -60,4 +71,12 @@ export async function validateUser(req, res, next) {
     console.log(error);
     res.status(500).send(error);
   }
+}
+
+export async function verifyInfo(req, res, next) {
+  const user = res.locals.user;
+  if (user.name !== req.body.username) {
+    return res.status(409).send("Unauthorized");
+  }
+  next();
 }
